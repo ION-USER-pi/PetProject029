@@ -1,0 +1,1188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>petproject029</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark-color);
+            background-color: var(--light-color);
+            overflow-x: hidden;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* Navigation */
+        .navbar {
+            background-color: var(--primary-color);
+            padding: 20px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: var(--transition);
+        }
+        
+        .navbar.scrolled {
+            padding: 10px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .navbar-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            color: var(--light-color);
+            font-size: 24px;
+            font-weight: 700;
+            text-decoration: none;
+        }
+        
+        .logo span {
+            color: var(--accent-color);
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-item {
+            margin-left: 30px;
+        }
+        
+        .nav-link {
+            color: var(--light-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+        
+        .nav-link:hover {
+            color: var(--accent-color);
+        }
+        
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: var(--light-color);
+            font-size: 24px;
+        }
+        
+        /* Hero Section */
+        .hero {
+            padding: 180px 0 100px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: var(--light-color);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('/api/placeholder/1200/800') no-repeat center center/cover;
+            opacity: 0.1;
+            z-index: 0;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            opacity: 0.9;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: var(--light-color);
+            padding: 12px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            background-color: #c0392b;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Features Section */
+        .features {
+            padding: 100px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+        
+        .section-title p {
+            color: #7f8c8d;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .features-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .feature-box {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+        
+        .feature-box:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--secondary-color);
+        }
+        
+        .feature-box h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+        
+        /* Process Section */
+        .process {
+            padding: 100px 0;
+            background-color: #f9f9f9;
+        }
+        
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            width: 4px;
+            background-color: var(--secondary-color);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -2px;
+        }
+        
+        .timeline-item {
+            padding: 20px 40px;
+            position: relative;
+            width: 50%;
+            box-sizing: border-box;
+        }
+        
+        .timeline-item:nth-child(odd) {
+            left: 0;
+        }
+        
+        .timeline-item:nth-child(even) {
+            left: 50%;
+        }
+        
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: var(--secondary-color);
+            border-radius: 50%;
+            top: 20px;
+        }
+        
+        .timeline-item:nth-child(odd)::after {
+            right: -10px;
+        }
+        
+        .timeline-item:nth-child(even)::after {
+            left: -10px;
+        }
+        
+        .timeline-content {
+            padding: 20px;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .timeline-content h3 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+        
+        /* Applications Section */
+        .applications {
+            padding: 100px 0;
+        }
+        
+        .applications-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .application-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+        }
+        
+        .application-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .application-img {
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .application-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+        
+        .application-card:hover .application-img img {
+            transform: scale(1.1);
+        }
+        
+        .application-content {
+            padding: 20px;
+        }
+        
+        .application-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+        
+        /* FAQ Section */
+        .faq {
+            padding: 100px 0;
+            background-color: #f9f9f9;
+        }
+        
+        .accordion {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .accordion-item {
+            background-color: white;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+        
+        .accordion-header {
+            padding: 20px;
+            background-color: white;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .accordion-header h3 {
+            font-size: 1.2rem;
+            margin: 0;
+            color: var(--primary-color);
+        }
+        
+        .accordion-icon {
+            color: var(--secondary-color);
+            transition: var(--transition);
+        }
+        
+        .accordion-icon.active {
+            transform: rotate(180deg);
+        }
+        
+        .accordion-content {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        
+        .accordion-content p {
+            padding-bottom: 20px;
+        }
+        
+        /* Contact Section */
+        .contact {
+            padding: 100px 0;
+        }
+        
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: var(--transition);
+        }
+        
+        .form-control:focus {
+            border-color: var(--secondary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+        
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        /* Footer */
+        .footer {
+            background-color: var(--primary-color);
+            color: var(--light-color);
+            padding: 50px 0 20px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-col h4 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: var(--light-color);
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: #bdc3c7;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent-color);
+            padding-left: 5px;
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Responsive Design */
+        @media screen and (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hamburger {
+                display: block;
+            }
+            
+            .nav-menu {
+                position: fixed;
+                left: -100%;
+                top: 70px;
+                flex-direction: column;
+                background-color: var(--primary-color);
+                width: 100%;
+                text-align: center;
+                transition: var(--transition);
+                box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+                padding: 20px 0;
+            }
+            
+            .nav-menu.active {
+                left: 0;
+            }
+            
+            .nav-item {
+                margin: 15px 0;
+            }
+            
+            .timeline::before {
+                left: 40px;
+            }
+            
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+            
+            .timeline-item:nth-child(even) {
+                left: 0;
+            }
+            
+            .timeline-item:nth-child(odd)::after,
+            .timeline-item:nth-child(even)::after {
+                left: 30px;
+            }
+            
+            .contact-form {
+                padding: 20px;
+            }
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 1s ease forwards;
+            opacity: 0;
+        }
+        
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+        .delay-400 { animation-delay: 0.4s; }
+        .delay-500 { animation-delay: 0.5s; }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container navbar-container">
+            <a href="#" class="logo">Onto<span>Discovery</span></a>
+            <button class="hamburger">☰</button>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="#home" class="nav-link">Home</a></li>
+                <li class="nav-item"><a href="#features" class="nav-link">Features</a></li>
+                <li class="nav-item"><a href="#process" class="nav-link">Process</a></li>
+                <li class="nav-item"><a href="#applications" class="nav-link">Applications</a></li>
+                <li class="nav-item"><a href="#faq" class="nav-link">FAQ</a></li>
+                <li class="nav-item"><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="container hero-content">
+            <h1 class="fade-in">Knowledge Discovery for Ontology Learning</h1>
+            <p class="fade-in delay-200">Unlocking the power of automated knowledge extraction to build intelligent and dynamic ontologies for the semantic web and beyond.</p>
+            <a href="#features" class="btn fade-in delay-400">Explore Features</a>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <div class="section-title">
+                <h2>Key Features</h2>
+                <p>Discover how knowledge discovery techniques can revolutionize ontology learning and development</p>
+            </div>
+            <div class="features-container">
+                <div class="feature-box fade-in">
+                    <div class="feature-icon">📊</div>
+                    <h3>Automated Knowledge Extraction</h3>
+                    <p>Extract meaningful concepts, relations, and axioms from various data sources using advanced machine learning algorithms.</p>
+                </div>
+                <div class="feature-box fade-in delay-100">
+                    <div class="feature-icon">🔄</div>
+                    <h3>Semantic Integration</h3>
+                    <p>Seamlessly integrate knowledge from heterogeneous sources into unified ontological structures.</p>
+                </div>
+                <div class="feature-box fade-in delay-200">
+                    <div class="feature-icon">📈</div>
+                    <h3>Dynamic Evolution</h3>
+                    <p>Enable ontologies to adapt and evolve over time based on new knowledge and changing requirements.</p>
+                </div>
+                <div class="feature-box fade-in delay-300">
+                    <div class="feature-icon">🧠</div>
+                    <h3>Machine Learning Techniques</h3>
+                    <p>Leverage state-of-the-art ML models to improve accuracy and completeness of learned ontologies.</p>
+                </div>
+                <div class="feature-box fade-in delay-400">
+                    <div class="feature-icon">📝</div>
+                    <h3>Natural Language Processing</h3>
+                    <p>Process and analyze text documents to extract domain-specific knowledge and terminology.</p>
+                </div>
+                <div class="feature-box fade-in delay-500">
+                    <div class="feature-icon">🔍</div>
+                    <h3>Pattern Discovery</h3>
+                    <p>Identify recurring patterns and relationships in data to enrich ontological structures.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process Section -->
+    <section id="process" class="process">
+        <div class="container">
+            <div class="section-title">
+                <h2>The Ontology Learning Process</h2>
+                <p>A systematic approach to discovering and organizing knowledge</p>
+            </div>
+            <div class="timeline">
+                <div class="timeline-item fade-in">
+                    <div class="timeline-content">
+                        <h3>1. Data Collection & Preprocessing</h3>
+                        <p>Gather and clean data from various sources including text documents, databases, and existing ontologies.</p>
+                    </div>
+                </div>
+                <div class="timeline-item fade-in delay-100">
+                    <div class="timeline-content">
+                        <h3>2. Term Extraction</h3>
+                        <p>Identify relevant terms and concepts using statistical and linguistic methods.</p>
+                    </div>
+                </div>
+                <div class="timeline-item fade-in delay-200">
+                    <div class="timeline-content">
+                        <h3>3. Concept Formation</h3>
+                        <p>Group related terms into concepts and establish concept hierarchies.</p>
+                    </div>
+                </div>
+                <div class="timeline-item fade-in delay-300">
+                    <div class="timeline-content">
+                        <h3>4. Relation Discovery</h3>
+                        <p>Identify semantic relationships between concepts using association rules and pattern mining.</p>
+                    </div>
+                </div>
+                <div class="timeline-item fade-in delay-400">
+                    <div class="timeline-content">
+                        <h3>5. Axiom Generation</h3>
+                        <p>Formulate logical rules and constraints to express complex domain knowledge.</p>
+                    </div>
+                </div>
+                <div class="timeline-item fade-in delay-500">
+                    <div class="timeline-content">
+                        <h3>6. Validation & Refinement</h3>
+                        <p>Evaluate the quality of the learned ontology and refine it through expert feedback and automated testing.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Applications Section -->
+    <section id="applications" class="applications">
+        <div class="container">
+            <div class="section-title">
+                <h2>Real-World Applications</h2>
+                <p>Discover how ontology learning is transforming various domains</p>
+            </div>
+            <div class="applications-container">
+                <div class="application-card fade-in">
+                    <div class="application-img">
+                        <img src="images/HealthApp.png" alt="Healthcare application">
+                    </div>
+                    <div class="application-content">
+                        <h3>Healthcare & Biomedicine</h3>
+                        <p>Automated extraction of medical knowledge to build comprehensive biomedical ontologies for disease classification, drug discovery, and clinical decision support.</p>
+                    </div>
+                </div>
+                <div class="application-card fade-in delay-100">
+                    <div class="application-img">
+                        <img src="images/E-comApp.jpg" alt="E-commerce application">
+                    </div>
+                    <div class="application-content">
+                        <h3>E-commerce & Recommendation</h3>
+                        <p>Building product ontologies to enhance search capabilities and provide personalized recommendations based on semantic understanding of user preferences.</p>
+                    </div>
+                </div>
+                <div class="application-card fade-in delay-200">
+                    <div class="application-img">
+                        <img src="images/EnterKnowMan.png" alt="Knowledge management application">
+                    </div>
+                    <div class="application-content">
+                        <h3>Enterprise Knowledge Management</h3>
+                        <p>Organizing corporate knowledge into structured ontologies to improve information retrieval, collaboration, and decision-making processes.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="faq">
+        <div class="container">
+            <div class="section-title">
+                <h2>Frequently Asked Questions</h2>
+                <p>Common questions about knowledge discovery for ontology learning</p>
+            </div>
+            <div class="accordion">
+                <div class="accordion-item fade-in">
+                    <div class="accordion-header">
+                        <h3>What is ontology learning?</h3>
+                        <span class="accordion-icon">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <p>Ontology learning is the process of automatically or semi-automatically generating ontologies from various data sources. It involves extracting concepts, relations, and axioms to create structured knowledge representations for specific domains.</p>
+                    </div>
+                </div>
+                <div class="accordion-item fade-in delay-100">
+                    <div class="accordion-header">
+                        <h3>How does knowledge discovery contribute to ontology learning?</h3>
+                        <span class="accordion-icon">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <p>Knowledge discovery provides techniques and methods for extracting hidden patterns and relationships from large datasets. These discovered patterns can be transformed into ontological elements, enabling the automated construction and enrichment of ontologies.</p>
+                    </div>
+                </div>
+                <div class="accordion-item fade-in delay-200">
+                    <div class="accordion-header">
+                        <h3>What data sources can be used for ontology learning?</h3>
+                        <span class="accordion-icon">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <p>Various data sources can be used, including structured data (databases, spreadsheets), semi-structured data (XML, JSON), unstructured data (text documents, web pages), and existing knowledge resources (dictionaries, thesauri, other ontologies).</p>
+                    </div>
+                </div>
+                <div class="accordion-item fade-in delay-300">
+                    <div class="accordion-header">
+                        <h3>What are the main challenges in ontology learning?</h3>
+                        <span class="accordion-icon">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <p>Major challenges include dealing with data heterogeneity, handling ambiguity in natural language, ensuring the quality and consistency of extracted knowledge, scalability issues with large datasets, and integration with existing ontologies.</p>
+                    </div>
+                </div>
+                <div class="accordion-item fade-in delay-400">
+                    <div class="accordion-header">
+                        <h3>How is machine learning used in ontology learning?</h3>
+                        <span class="accordion-icon">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <p>Machine learning techniques are used for various tasks in ontology learning, including term extraction (using NLP and statistical methods), concept classification (using clustering and classification algorithms), relation extraction (using association rule mining and neural networks), and ontology evaluation (using validation metrics).</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="section-title">
+                <h2>Get in Touch</h2>
+                <p>Have questions about implementing ontology learning in your organization? Contact us!</p>
+            </div>
+            <div class="contact-form fade-in">
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Your Name">
+                    </div>
+                    <div class="form-group">
+                        <input type="email" class="form-control" placeholder="Your Email">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Subject">
+                    </div>
+                    <div class="form-group">
+                        <textarea class="form-control" placeholder="Your Message"></textarea>
+                    </div>
+                    <button type="submit" class="btn">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-col">
+                    <h4>About Us</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Our Mission</a></li>
+                        <li><a href="#">Research Team</a></li>
+                        <li><a href="#">Publications</a></li>
+                        <li><a href="#">Partners</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Resources</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Documentation</a></li>
+                        <li><a href="#">Tutorials</a></li>
+                        <li><a href="#">Case Studies</a></li>
+                        <li><a href="#">Research Papers</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Support</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Community Forum</a></li>
+                        <li><a href="#">Contact Support</a></li>
+                        <li><a href="#">FAQs</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Connect</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Twitter</a></li>
+                        <li><a href="#">LinkedIn</a></li>
+                        <li><a href="#">GitHub</a></li>
+                        <li><a href="#">Newsletter</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 OntoDiscovery. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        $(document).ready(function() {
+            // Navbar scroll effect
+            $(window).scroll(function() {
+                if ($(this).scrollTop() > 50) {
+                    $('.navbar').addClass('scrolled');
+                } else {
+                    $('.navbar').removeClass('scrolled');
+                }
+            });
+            
+            // Mobile navigation
+            $('.hamburger').click(function() {
+                $('.nav-menu').toggleClass('active');
+            });
+            
+            // Smooth scrolling
+            $('a[href*="#"]').on('click', function(e) {
+                e.preventDefault();
+                
+                $('html, body').animate(
+                    {
+                        scrollTop: $($(this).attr('href')).offset().top - 70
+                    },
+                    500,
+                    'linear'
+                );
+                
+                // Close mobile menu if open
+                $('.nav-menu').removeClass('active');
+            });
+            
+            // Accordion
+            $('.accordion-header').click(function() {
+                const content = $(this).next('.accordion-content');
+                const icon = $(this).find('.accordion-icon');
+                
+                $('.accordion-content').not(content).css('max-height', '0');
+                $('.accordion-icon').not(icon).removeClass('active');
+                
+                if (parseInt(content.css('max-height')) > 0) {
+                    content.css('max-height', '0');
+                    icon.removeClass('active');
+                } else {
+                    content.css('max-height', content[0].scrollHeight + 'px');
+                    icon.addClass('active');
+                }
+            });
+            
+            // Animation on scroll
+            function checkVisible(elm) {
+                var rect = elm.getBoundingClientRect();
+                var viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight);
+                return !(rect.bottom < 0 || rect.top - viewHeight >= 0);
+            }
+            
+            function handleScrollAnimation() {
+                $('.fade-in').each(function() {
+                    if (checkVisible(this)) {
+                        $(this).addClass('visible');
+                    }
+                });
+            }
+            
+            // Initial check on page load
+            handleScrollAnimation();
+            
+            // Check on scroll
+            $(window).scroll(function() {
+                handleScrollAnimation();
+            });
+            
+            // Form validation
+            $('form').submit(function(e) {
+                e.preventDefault();
+                
+                let valid = true;
+                
+                $(this).find('.form-control').each(function() {
+                    if ($(this).val().trim() === '') {
+                        $(this).css('border-color', 'var(--accent-color)');
+                        valid = false;
+                    } else {
+                        $(this).css('border-color', '#ddd');
+                    }
+                });
+                
+                if (valid) {
+                    // In a real scenario, this would send the form data
+                    alert('Thank you for your message! We will get back to you soon.');
+                    $(this)[0].reset();
+                } else {
+                    alert('Please fill in all fields.');
+                }
+            });
+            
+            // Interactive Feature Boxes
+            $('.feature-box').hover(function() {
+                $(this).find('.feature-icon').css({
+                    'transform': 'scale(1.2)',
+                    'transition': 'transform 0.3s ease'
+                });
+            }, function() {
+                $(this).find('.feature-icon').css({
+                    'transform': 'scale(1)',
+                    'transition': 'transform 0.3s ease'
+                });
+            });
+            
+            // Dynamic Content Loading for Applications Section
+            const applications = [
+                {
+                    title: 'Financial Services',
+                    description: 'Using ontology learning to analyze financial documents and regulatory texts to build comprehensive knowledge bases for risk assessment and compliance.',
+                    image: '/api/placeholder/400/300'
+                },
+                {
+                    title: 'Scientific Research',
+                    description: 'Automatically extracting scientific knowledge from research papers to create domain-specific ontologies for literature review and hypothesis generation.',
+                    image: '/api/placeholder/400/300'
+                },
+                {
+                    title: 'Legal Domain',
+                    description: 'Building legal ontologies from case law and statutes to aid in legal reasoning, document classification, and compliance monitoring.',
+                    image: '/api/placeholder/400/300'
+                }
+            ];
+            
+            // Function to load more applications
+            $('#load-more-apps').on('click', function() {
+                const container = $('.applications-container');
+                
+                applications.forEach((app, index) => {
+                    const delay = index * 100;
+                    const card = `
+                        <div class="application-card fade-in" style="animation-delay: ${delay}ms">
+                            <div class="application-img">
+                                <img src="${app.image}" alt="${app.title}">
+                            </div>
+                            <div class="application-content">
+                                <h3>${app.title}</h3>
+                                <p>${app.description}</p>
+                            </div>
+                        </div>
+                    `;
+                    
+                    container.append(card);
+                });
+                
+                $(this).hide();
+                handleScrollAnimation();
+            });
+            
+            // Theme Switcher
+            const themes = {
+                default: {
+                    primary: '#2c3e50',
+                    secondary: '#3498db',
+                    accent: '#e74c3c',
+                    light: '#ecf0f1',
+                    dark: '#2c3e50'
+                },
+                dark: {
+                    primary: '#1a1a2e',
+                    secondary: '#0f3460',
+                    accent: '#e94560',
+                    light: '#16213e',
+                    dark: '#eeeeee'
+                },
+                nature: {
+                    primary: '#2d3e40',
+                    secondary: '#6d9886',
+                    accent: '#d57149',
+                    light: '#f0f0f0',
+                    dark: '#2d3e40'
+                }
+            };
+            
+            function setTheme(theme) {
+                const root = document.documentElement;
+                const colors = themes[theme];
+                
+                root.style.setProperty('--primary-color', colors.primary);
+                root.style.setProperty('--secondary-color', colors.secondary);
+                root.style.setProperty('--accent-color', colors.accent);
+                root.style.setProperty('--light-color', colors.light);
+                root.style.setProperty('--dark-color', colors.dark);
+                
+                localStorage.setItem('preferred-theme', theme);
+            }
+            
+            // Check for saved theme preference
+            const savedTheme = localStorage.getItem('preferred-theme');
+            if (savedTheme && themes[savedTheme]) {
+                setTheme(savedTheme);
+            }
+            
+            // Add theme switcher to bottom right corner
+            const themeSwitcher = `
+                <div class="theme-switcher">
+                    <button data-theme="default" class="theme-btn">Default</button>
+                    <button data-theme="dark" class="theme-btn">Dark</button>
+                    <button data-theme="nature" class="theme-btn">Nature</button>
+                </div>
+            `;
+            
+            $('body').append(themeSwitcher);
+            
+            // Add theme switcher styles
+            $('head').append(`
+                <style>
+                    .theme-switcher {
+                        position: fixed;
+                        bottom: 20px;
+                        right: 20px;
+                        display: flex;
+                        gap: 5px;
+                        z-index: 1000;
+                    }
+                    
+                    .theme-btn {
+                        padding: 8px 12px;
+                        background: var(--primary-color);
+                        color: var(--light-color);
+                        border: none;
+                        border-radius: 4px;
+                        cursor: pointer;
+                        transition: var(--transition);
+                    }
+                    
+                    .theme-btn:hover {
+                        background: var(--secondary-color);
+                    }
+                </style>
+            `);
+            
+            // Theme button click handler
+            $('.theme-btn').click(function() {
+                const theme = $(this).data('theme');
+                setTheme(theme);
+            });
+            
+            // Interactive data visualization section
+            const visualizationData = [
+                { category: 'Concept Extraction', accuracy: 85 },
+                { category: 'Relation Discovery', accuracy: 72 },
+                { category: 'Axiom Generation', accuracy: 65 },
+                { category: 'Term Clustering', accuracy: 80 },
+                { category: 'Hierarchy Extraction', accuracy: 78 }
+            ];
+            
+            // Create visualization container
+            const vizSection = `
+                <section class="visualization">
+                    <div class="container">
+                        <div class="section-title">
+                            <h2>Performance Metrics</h2>
+                            <p>Accuracy of different ontology learning techniques</p>
+                        </div>
+                        <div class="chart-container fade-in">
+                            <canvas id="performance-chart"></canvas>
+                        </div>
+                    </div>
+                </section>
+            `;
+            
+            // Insert visualization section before FAQ
+            $('.faq').before(vizSection);
+            
+            // Add visualization styles
+            $('head').append(`
+                <style>
+                    .visualization {
+                        padding: 100px 0;
+                        background-color: white;
+                    }
+                    
+                    .chart-container {
+                        max-width: 800px;
+                        margin: 0 auto;
+                        height: 400px;
+                    }
+                </style>
+            `);
+            
+            // Load Chart.js from CDN
+            $.getScript('https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js', function() {
+                // Create bar chart
+                const ctx = document.getElementById('performance-chart').getContext('2d');
+                const chart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: visualizationData.map(item => item.category),
+                        datasets: [{
+                            label: 'Accuracy (%)',
+                            data: visualizationData.map(item => item.accuracy),
+                            backgroundColor: visualizationData.map(() => 'rgba(52, 152, 219, 0.7)'),
+                            borderColor: visualizationData.map(() => 'rgba(52, 152, 219, 1)'),
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                max: 100
+                            }
+                        }
+                    }
+                });
+            });
+            
+            // Add a "Back to Top" button
+            $('body').append('<button id="back-to-top" title="Back to Top">↑</button>');
+            
+            // Add styles for the "Back to Top" button
+            $('head').append(`
+                <style>
+                    #back-to-top {
+                        display: none;
+                        position: fixed;
+                        bottom: 20px;
+                        left: 20px;
+                        z-index: 99;
+                        border: none;
+                        outline: none;
+                        background-color: var(--accent-color);
+                        color: white;
+                        cursor: pointer;
+                        padding: 15px;
+                        border-radius: 50%;
+                        font-size: 18px;
+                        transition: var(--transition);
+                    }
+                    
+                    #back-to-top:hover {
+                        background-color: #c0392b;
+                    }
+                </style>
+            `);
+            
+            // Back to Top functionality
+            $(window).scroll(function() {
+                if ($(this).scrollTop() > 300) {
+                    $('#back-to-top').fadeIn();
+                } else {
+                    $('#back-to-top').fadeOut();
+                }
+            });
+            
+            $('#back-to-top').click(function() {
+                $('html, body').animate({scrollTop: 0}, 800);
+                return false;
+            });
+        });
+    </script>
+</body>
+</html>
